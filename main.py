@@ -21,7 +21,7 @@ if openai_api_key:
                 "vector_store": {
                     "provider": "qdrant",
                     "config": {
-                        "model": "gpt-4o-mini",
+                        # "model": "gpt-4o-mini",
                         "host": "localhost",
                         "port": 6333,
                     }
