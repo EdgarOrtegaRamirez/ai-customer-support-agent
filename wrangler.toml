@@ -1,0 +1,48 @@
+# This is the name of your Worker.
+name = "gowa-cloudflare-worker"
+
+# This is the entry point for your Worker.
+main = "src/index.js"
+
+# This is the compatibility date for your Worker. It's a good practice to
+# set this to a recent date to ensure your Worker uses the latest features.
+compatibility_date = "2024-05-18"
+
+# Durable Object bindings are used to associate a Durable Object class
+# with a binding name that can be used in the Worker's code.
+[[durable_objects.bindings]]
+# The name of the binding. This is used in the Worker's code to access the
+# Durable Object (e.g., `env.GOWA_CONTAINER`).
+name = "GOWA_CONTAINER"
+# The name of the class that implements the Durable Object. This must match
+# the name of the exported class in `src/index.js`.
+class_name = "GowaContainer"
+
+# The containers section defines the containers that can be launched by this Worker.
+[[containers]]
+# The class_name specifies which Durable Object class will back this container.
+# When a new container instance is created, a new instance of this Durable Object
+# will be created to manage its state.
+class_name = "GowaContainer"
+
+# The name of the container. This is used for identification purposes.
+name = "gowa-container"
+
+# The Docker image to use for the container. This image will be pulled from
+# Docker Hub.
+image = "aldinokemal2104/go-whatsapp-web-multidevice"
+
+# The command to run when the container starts. This overrides the default
+# command of the Docker image. We are running the `rest` command to start the
+# REST API server. We also set the port and a custom OS name.
+command = [
+    "rest",
+    "--port=3000",
+    "--os=CloudflareGowa"
+]
+
+# This migration is required to register the new Durable Object class with
+# the Cloudflare platform. The tag is used to identify the migration.
+[[migrations]]
+tag = "v1"
+new_classes = ["GowaContainer"]
